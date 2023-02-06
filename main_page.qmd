@@ -38,7 +38,7 @@ filter(grepl(dashboard, ROI))
 # For some reason, bounds don't set exactly right. Some sort of buffer? Depends on view/render?
 # Set manually for now
 # Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
-slat <- 23; nlat <- 31 ; wlon <- -98; elon <- -88
+slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
 date_tmp <- '2017-01-01'
 # L3 Ocean Color from IMaRS (ERDDAP)
 sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
@@ -55,55 +55,72 @@ get_dates <- function(info){
 }
 # get most recent date
 d <- get_dates(chl)[2]
-```
-# Figure 1: Map image showing NW GoM, rivers, stream gages, banks and sentinel sites
+# write a function here to make an image plot
+# Inputs: ERDDAP URL, dataset, title, color scale info.
+ERDDAPUrl_chl <- 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fgb/request?'
+field_chl <- "moda_oc_7d_fgb:chlor_a_median"
+ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/request?'
+field_sst <- "moda_sst4_7d_fgb:sst4_a_median"
+img_time_stmp <- "2022-09-02T00:00:00Z" # pull from filenames
 
-![](data/FGBdb_map_2021.png){width=500}
 
-::: {.panel-tabset}
-
-## Chlorophyll-a
-```{r}
-# Leaflet map
-leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
-  # basemap from GBIF in 4326
-  addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
-  # Call to IMaRS ERDDAP (chlor_a)
-  addWMSTiles(
-    baseUrl = 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fk/request?',
-    layers = "moda_oc_7d_fk:chlor_a_median",
-    options = WMSTileOptions(
-      version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
-      time = "2023-01-07T00:00:00Z")) %>% 
-  # Add Markers if needed
-  # addMarkers(lng = ~lon, lat = ~lat, label = ~name, data=site) %>%
-  addMouseCoordinates() %>%
-fitBounds(wlon, slat, elon, nlat) %>% # Can render past bounds depending on browser window
- addLegend(
-    position="bottomright",
-    title = paste0("CHLa (mg m^-3)<br>", date_tmp),
-    colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))
-```
-## SST
-```{r}
- # Leaflet map
+# Output: Plot figures - start with a basic tabset w/CHL and SST, add SS later
+chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
+   # Leaflet map
  leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
    addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
    # Call to IMaRS ERDDAP (chlor_a)
    addWMSTiles(
-     baseUrl = 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fk/request?',
-     layers = "moda_sst4_7d_fk:sst4_median",
+     baseUrl = ERDDAPUrl_chl,
+     layers = field_chl,
      options = WMSTileOptions(
        version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
-       time = "2022-09-02T00:00:00Z")) %>%
-   # addMarkers(lng = ~lon, lat = ~lat, label = ~name, data=site) %>%
+       time = img_time_stmp)) %>%
+   addMouseCoordinates() %>%
+ fitBounds(wlon, slat, elon, nlat) %>%
+  addLegend(
+     position="bottomright",
+     title = paste0("CHLa (mg m^-3)<br>", date_tmp),
+     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))
+  }
+
+sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat){
+   # Leaflet map
+ leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
+   # basemap from GBIF in 4326
+   addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
+   # Call to IMaRS ERDDAP (chlor_a)
+   addWMSTiles(
+     baseUrl = ERDDAPUrl_sst,
+     layers = field_sst,
+     options = WMSTileOptions(
+       version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
+       time = img_time_stmp)) %>%
    addMouseCoordinates() %>%
  fitBounds(wlon, slat, elon, nlat) %>%
   addLegend(
      position="bottomright",
      title = paste0("SST (DegC)<br>", date_tmp),
-     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))
+     colorNumeric("Spectral", c(0,32), reverse=T), seq(0,32))
+  }
+
+
+```
+## Map image 
+
+![](data/FGBdb_map_2021.png){width=900}
+
+::: {.panel-tabset}
+
+## Chlorophyll-a
+```{r}
+chl_img(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat)
+```
+
+## SST
+```{r}
+sst_img(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat)
 ```
 :::
 
