@@ -30,7 +30,7 @@ library("flexdashboard")
 
 ```{r}
 # source(here::here("scripts/functions.R")) 
-dashboard <- "FKNMS"
+dashboard <- "FGBNMS"
 # Set Bounds from "ROI_INFO.csv" (can add other columns)
 site <- read_csv("data/ROI_INFO.csv", col_types=cols()) %>%  # Pull ROI bounds from file.
 filter(grepl(dashboard, ROI))
@@ -38,11 +38,11 @@ filter(grepl(dashboard, ROI))
 # For some reason, bounds don't set exactly right. Some sort of buffer? Depends on view/render?
 # Set manually for now
 # Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
-slat <- 24; nlat <- 26 ; wlon <- -83; elon <- -79.5
+slat <- 23; nlat <- 31 ; wlon <- -98; elon <- -88
 date_tmp <- '2017-01-01'
 # L3 Ocean Color from IMaRS (ERDDAP)
-sst4   <- info('moda_sst4_7d_fk'         , url = "http://131.247.136.200:8080/erddap/")
-chl   <- info('moda_oc_7d_fk'         , url = "http://131.247.136.200:8080/erddap/")
+sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
 # Seascapes from AOML Coastwatch (ERDDAP)
 #  scape <- info("noaa_aoml_4729_9ee6_ab54", url = "https://cwcgom.aoml.noaa.gov/erddap/")
 get_dates <- function(info){
@@ -56,6 +56,10 @@ get_dates <- function(info){
 # get most recent date
 d <- get_dates(chl)[2]
 ```
+# Figure 1: Map image showing NW GoM, rivers, stream gages, banks and sentinel sites
+
+![](data/FGBdb_map_2021.png){width=500}
+
 ::: {.panel-tabset}
 
 ## Chlorophyll-a
