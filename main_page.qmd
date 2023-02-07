@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # install.packages("stringr")
 # install.packages("dplyr")
 # install.packages("readr")
+# install.packages("glue")
 # install.packages("here")
 # install.packages("flexdashboard")
 # put your libary loading here:
@@ -24,8 +25,52 @@ library("stringr")
 library("dplyr")
 library("leafem")
 library("readr")
+library("glue")
 library("here")
 library("flexdashboard")
+```
+
+```{r}
+# CODE BLOCK W/FUNCTIONS
+# GET_DATES
+get_dates <- function(info){
+  info$alldata$time %>%
+    filter(attribute_name=="actual_range") %>%
+    pull(value) %>%
+    str_split(", ", simplify = T) %>%
+    as.numeric() %>%
+    as.POSIXct(origin = "1970-01-01", tz = "GMT")
+}
+# GET_ED_INFO
+get_ed_info <- function(dataset){
+  library(magrittr)
+  #dataset = "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
+
+  if (librarian:::is_valid_url(dataset)){
+    ed_url <- dirname(dirname(dataset))
+    dataset <- basename(dataset) %>% fs::path_ext_remove()
+  } else{
+    ed_url = "http://131.247.136.200:8080/erddap"
+  }
+
+  rerddap::info(dataset, url = ed_url)
+}
+# GET_ED_DATES_ALL
+get_ed_dates_all <- function(ed_info, date_beg, date_end){
+  # dates = get_ed_dates(ed_info())
+  # date_beg = as.Date("2002-06-16"); date_end = as.Date("2022-01-16")
+
+  ed_dataset = attr(ed_info, "datasetid")
+
+  t_csv <- glue("{ed_info$base_url}/griddap/{ed_dataset}.csvp?time[({date_beg}T12:00:00Z):1:({date_end}T12:00:00Z)]")
+  d_t <- try(read_csv(t_csv, show_col_types = F))
+  if ("try-error" %in% class(d_t))
+    stop(glue("Problem fetching dates from ERDDAP with: {t_csv}"))
+
+  d_t %>%
+    pull() %>%
+    as.Date()
+}
 ```
 
 ```{r}
@@ -36,32 +81,40 @@ site <- read_csv("data/ROI_INFO.csv", col_types=cols()) %>%  # Pull ROI bounds f
 filter(grepl(dashboard, ROI))
 # slat <- site$slat; nlat <- site$nlat ; wlon <- site$wlon; elon <- site$elon
 # For some reason, bounds don't set exactly right. Some sort of buffer? Depends on view/render?
-# Set manually for now
 # Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
+# Set manually for now
 slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
 date_tmp <- '2017-01-01'
+
 # L3 Ocean Color from IMaRS (ERDDAP)
-sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
-chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+# sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+# chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
 # Seascapes from AOML Coastwatch (ERDDAP)
 #  scape <- info("noaa_aoml_4729_9ee6_ab54", url = "https://cwcgom.aoml.noaa.gov/erddap/")
-get_dates <- function(info){
-  info$alldata$time %>%
-    filter(attribute_name=="actual_range") %>%
-    pull(value) %>%
-    str_split(", ", simplify = T) %>%
-    as.numeric() %>%
-    as.POSIXct(origin = "1970-01-01", tz = "GMT")
-}
-# get most recent date
-d <- get_dates(chl)[2]
+
+# Alternate way to get info from ED dataset
+dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
+# date_beg = as.Date("2002-08-01"); date_end = as.Date("2024-02-01")
+
+# get range of dates (should be the same for CHL and SST)
+d <- get_dates(chl)
+
+# ed_info <- get_ed_info(dataset) 
+  
+ed_dates <-  get_ed_dates_all(ed_info, d[1], d[2])
+dates2post <- tail(ed_dates,8)
+
+# Post 8 most recent 7D images on the dash in a 4x2 matrix.
+# Each image will have two tabs: mean and anom
+# There will also be a tab set between 4x2 arrays (CHL,SST,SSCAPE)
+
 # write a function here to make an image plot
 # Inputs: ERDDAP URL, dataset, title, color scale info.
 ERDDAPUrl_chl <- 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fgb/request?'
 field_chl <- "moda_oc_7d_fgb:chlor_a_median"
 ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/request?'
 field_sst <- "moda_sst4_7d_fgb:sst4_a_median"
-img_time_stmp <- "2022-09-02T00:00:00Z" # pull from filenames
+img_time_stmp <- "2022-09-02T00:00:00Z" # pull from filenames. How?
 
 
 # Output: Plot figures - start with a basic tabset w/CHL and SST, add SS later
