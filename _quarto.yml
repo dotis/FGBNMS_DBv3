@@ -1,4 +1,4 @@
-project:
+project:"Flower Garden Banks Data Dashboard"
   output-dir: _output
 toc: true
 number-sections: true
