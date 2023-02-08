@@ -11,13 +11,11 @@ website:
     style: "docked"
     search: false
     contents:
-      - section: "Locations"
+      - section: "Locations for satellite data extraction"
         contents:
-          - index.qmd
-          - basics-knitr.qmd
-          - basics-jupyter.qmd
-      - section: "Information"
+          - EFGB.qmd
+          - WFGB.qmd
+          - STET.qmd
+      - section: "Other information"
         contents:
-          - layout.qmd
-          - layout-knitr.qmd
-          - layout-jupyter.qmd
+          - discharge.qmd
