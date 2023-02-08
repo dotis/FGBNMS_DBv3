@@ -72,9 +72,6 @@ get_ed_dates_all <- function(ed_info, date_beg, date_end){
     pull() %>%
     as.Date()
 }
-# Get info from ED dataset
-dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
-ed_info <- get_ed_info(dataset)
 
 # CHL_MED_IMG
 chl_med_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
@@ -177,16 +174,26 @@ slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
 
 # L3 Ocean Color from IMaRS (ERDDAP)
 # sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
-chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+# chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
 # Seascapes from AOML Coastwatch (ERDDAP)
 #  scape <- info("noaa_aoml_4729_9ee6_ab54", url = "https://cwcgom.aoml.noaa.gov/erddap/")
 
+# Get info from ED datasets
+chl_dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fgb.html"
+chl_ed_info <- get_ed_info(chl_dataset)
+sst_dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fgb.html"
+sst_ed_info <- get_ed_info(sst_dataset)
+
+# Get table w/bank location labels
+bank_labels <- read_csv("data/FGB_Banks_info.csv", col_types=cols())
 
 # get range of dates (should be the same for CHL and SST)
-d <- get_dates(chl) 
-ed_dates <-  get_ed_dates_all(ed_info, d[1], d[2])
-dates2post <- tail(ed_dates,8)
-
+chl_d <- get_dates(chl_ed_info)
+chl_ed_dates <-  get_ed_dates_all(chl_ed_info, chl_d[1], chl_d[2])
+chl_dates2post <- tail(chl_ed_dates,8)
+sst_d <- get_dates(sst_ed_info)
+sst_ed_dates <-  get_ed_dates_all(sst_ed_info, sst_d[1], sst_d[2])
+sst_dates2post <- tail(sst_ed_dates,8)
 # Post 8 most recent 7D images on the dash in a 4x2 matrix.
 # Each image will have two tabs: mean and anom
 # There will also be a tab set between 4x2 arrays (CHL,SST,SSCAPE)
@@ -200,18 +207,29 @@ ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/reques
 field_sst_med <- "moda_sst4_7d_fgb:sst4_median"
 field_sst_anom <- "moda_sst4_7d_fgb:sst4_anom"
 ```
+
+
+```{r}
+#| column: margin
+knitr::kable(
+  bank_labels[]
+)
+```
+
 ## Welcome
 ![](data/FGBdb_map_2021.png){width=900}
+
+
 
 
 ## Recent 7-Day mean satellite images
 ```{r}
 #| column: page
 #| layout-nrow: 2
-chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[8],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[7],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[6],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[5],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[8],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[7],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[6],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[5],wlon,slat,elon,nlat)
 # chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[4],wlon,slat,elon,nlat)
 # chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[3],wlon,slat,elon,nlat)
 # chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[2],wlon,slat,elon,nlat)
