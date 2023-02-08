@@ -1,6 +1,6 @@
 name: "FGBNMS_DBv3"
 toc: false
-number-sections: false
+number-sections: true
 format:
   html:
     theme: cosmo
