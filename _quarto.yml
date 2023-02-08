@@ -1,0 +1,15 @@
+website:
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Locations"
+        contents:
+          - index.qmd
+          - basics-knitr.qmd
+          - basics-jupyter.qmd
+      - section: "Information"
+        contents:
+          - layout.qmd
+          - layout-knitr.qmd
+          - layout-jupyter.qmd
