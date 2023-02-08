@@ -1,11 +1,10 @@
 ---
-title: "Flower Garden Banks Data Dash"
+title: "Flower Garden Banks Data Dashboard"
 format: html
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-# whatever is in this chunk gets run before any other chunk
 # install.packages("rerddap")
 # install.packages("plotdap")
 # install.packages("mapdata")
@@ -16,6 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # install.packages("glue")
 # install.packages("here")
 # install.packages("flexdashboard")
+# install.packages("viridis")
 # put your libary loading here:
 library("rerddap")
 library("mapdata")
@@ -28,6 +28,7 @@ library("readr")
 library("glue")
 library("here")
 library("flexdashboard")
+library("viridis")
 ```
 
 ```{r}
@@ -75,8 +76,8 @@ get_ed_dates_all <- function(ed_info, date_beg, date_end){
 dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
 ed_info <- get_ed_info(dataset)
 
-# CHL_IMG
-chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,leg_info,wlon,slat,elon,nlat){
+# CHL_MED_IMG
+chl_med_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
    # Leaflet map
  leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
@@ -92,11 +93,32 @@ chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,leg_info,wlon,slat,elo
  fitBounds(wlon, slat, elon, nlat) %>%
   addLegend(
      position="bottomright",
-     title = paste0("CHLa (mg m^-3)<br>", date_tmp),
-     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))
-  }
-# SST_IMG
-sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,leg_info,wlon,slat,elon,nlat){
+     title = paste0("CHLa (mg m^-3)<br>", img_time_stmp),
+     colorNumeric("Spectral", c(0.3,30), reverse=T), seq(0.3,30))
+}
+# CHL_ANOM_IMG
+chl_anom_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
+   # Leaflet map
+ leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
+   # basemap from GBIF in 4326
+   addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
+   # Call to IMaRS ERDDAP (chlor_a)
+   addWMSTiles(
+     baseUrl = ERDDAPUrl_chl,
+     layers = field_chl,
+     options = WMSTileOptions(
+       version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
+       time = img_time_stmp)) %>%
+   addMouseCoordinates() %>%
+ fitBounds(wlon, slat, elon, nlat) %>%
+  addLegend(
+     position="bottomright",
+     title = paste0("CHLa anomaly (mg m^-3)<br>", img_time_stmp),
+     colorNumeric("Spectral", c(-10,10), reverse=T), seq(-10,10))
+}
+
+# SST_MED_IMG
+sst_med_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat){
    # Leaflet map
  leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
@@ -112,12 +134,31 @@ sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,leg_info,wlon,slat,elo
  fitBounds(wlon, slat, elon, nlat) %>%
   addLegend(
      position="bottomright",
-     title = paste0("SST (DegC)<br>", date_tmp),
+     title = paste0("SST (DegC)<br>", img_time_stmp),
      colorNumeric("Spectral", c(0,32), reverse=T), seq(0,32))
+}
+# SST_ANOM_IMG
+sst_anom_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat){
+   # Leaflet map
+ leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
+   # basemap from GBIF in 4326
+   addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
+   # Call to IMaRS ERDDAP (chlor_a)
+   addWMSTiles(
+     baseUrl = ERDDAPUrl_sst,
+     layers = field_sst,
+     options = WMSTileOptions(
+       version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
+       time = img_time_stmp)) %>%
+   addMouseCoordinates() %>%
+ fitBounds(wlon, slat, elon, nlat) %>%
+  addLegend(
+     position="bottomright",
+     title = paste0("SST anomaly (DegC)<br>", img_time_stmp),
+     colorNumeric("Spectral", c(-3,3), reverse=T), seq(-3,3))
   }
 # SSCAPE_IMG
 # Coming.....
-
 
 ```
 
@@ -132,7 +173,7 @@ filter(grepl(dashboard, ROI))
 # Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
 # Set manually for now
 slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
-date_tmp <- '2017-01-01'
+# Or, set center point w/buffer?
 
 # L3 Ocean Color from IMaRS (ERDDAP)
 # sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
@@ -154,32 +195,27 @@ dates2post <- tail(ed_dates,8)
 # Inputs: ERDDAP URL, dataset, title, color scale info.
 ERDDAPUrl_chl <- 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fgb/request?'
 field_chl_med <- "moda_oc_7d_fgb:chlor_a_median"
-leg_info_chl_med <- 'paste0("CHLa (mg m^-3)<br>", date_tmp),
-     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))'
 field_chl_anom <- "moda_oc_7d_fgb:chlor_a_anom"
-leg_info_chl_anom <- 'paste0("CHLa anomaly (mg m^-3)<br>", date_tmp),
-     colorNumeric("Spectral", c(-10,10), reverse=T), seq(-10,10))'
 ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/request?'
 field_sst_med <- "moda_sst4_7d_fgb:sst4_median"
-leg_info_sst_med <- 'paste0("SST (DegC)<br>", date_tmp),
-     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))'
 field_sst_anom <- "moda_sst4_7d_fgb:sst4_anom"
-leg_info_sst_anom <- 'paste0("SST anomaly (DegC)<br>", date_tmp),
-     colorNumeric("Spectral", c(-3,3), reverse=T), seq(-3,3))'
 ```
-## Map image 
-
+## Welcome
 ![](data/FGBdb_map_2021.png){width=900}
 
-::: {.panel-tabset}
-## Median
+
+## Recent 7-Day mean satellite images
 ```{r}
-chl_img(ERDDAPUrl_chl,field_chl_med,dates2post[1],leg_info_chl_med,wlon,slat,elon,nlat)
+#| column: page
+#| layout-nrow: 2
+chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[8],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[7],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[6],wlon,slat,elon,nlat)
+chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[5],wlon,slat,elon,nlat)
+# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[4],wlon,slat,elon,nlat)
+# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[3],wlon,slat,elon,nlat)
+# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[2],wlon,slat,elon,nlat)
+# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[1],wlon,slat,elon,nlat)
 ```
 
-## Anomaly
-```{r}
-chl_img(ERDDAPUrl_chl,field_chl_anom,dates2post[1],leg_info_chl_anom,wlon,slat,elon,nlat)
-```
-:::
 
