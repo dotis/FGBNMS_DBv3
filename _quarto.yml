@@ -1,5 +1,4 @@
-project: "Flower Garden Banks Data Dashboard"
-output-dir: _output
+name: "Flower Garden Banks Data Dashboard"
 toc: true
 number-sections: true
 bibliography: references.bib  
