@@ -1,7 +1,6 @@
 name: "Flower Garden Banks Data Dashboard"
 toc: true
 number-sections: true
-bibliography: references.bib  
 format:
   html:
     theme: cosmo
