@@ -71,54 +71,12 @@ get_ed_dates_all <- function(ed_info, date_beg, date_end){
     pull() %>%
     as.Date()
 }
-```
-
-```{r}
-# source(here::here("scripts/functions.R")) 
-dashboard <- "FGBNMS"
-# Set Bounds from "ROI_INFO.csv" (can add other columns)
-site <- read_csv("data/ROI_INFO.csv", col_types=cols()) %>%  # Pull ROI bounds from file.
-filter(grepl(dashboard, ROI))
-# slat <- site$slat; nlat <- site$nlat ; wlon <- site$wlon; elon <- site$elon
-# For some reason, bounds don't set exactly right. Some sort of buffer? Depends on view/render?
-# Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
-# Set manually for now
-slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
-date_tmp <- '2017-01-01'
-
-# L3 Ocean Color from IMaRS (ERDDAP)
-# sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
-# chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
-# Seascapes from AOML Coastwatch (ERDDAP)
-#  scape <- info("noaa_aoml_4729_9ee6_ab54", url = "https://cwcgom.aoml.noaa.gov/erddap/")
-
-# Alternate way to get info from ED dataset
+# Get info from ED dataset
 dataset <- "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
-# date_beg = as.Date("2002-08-01"); date_end = as.Date("2024-02-01")
+ed_info <- get_ed_info(dataset)
 
-# get range of dates (should be the same for CHL and SST)
-d <- get_dates(chl)
-
-# ed_info <- get_ed_info(dataset) 
-  
-ed_dates <-  get_ed_dates_all(ed_info, d[1], d[2])
-dates2post <- tail(ed_dates,8)
-
-# Post 8 most recent 7D images on the dash in a 4x2 matrix.
-# Each image will have two tabs: mean and anom
-# There will also be a tab set between 4x2 arrays (CHL,SST,SSCAPE)
-
-# write a function here to make an image plot
-# Inputs: ERDDAP URL, dataset, title, color scale info.
-ERDDAPUrl_chl <- 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fgb/request?'
-field_chl <- "moda_oc_7d_fgb:chlor_a_median"
-ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/request?'
-field_sst <- "moda_sst4_7d_fgb:sst4_a_median"
-img_time_stmp <- "2022-09-02T00:00:00Z" # pull from filenames. How?
-
-
-# Output: Plot figures - start with a basic tabset w/CHL and SST, add SS later
-chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
+# CHL_IMG
+chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,leg_info,wlon,slat,elon,nlat){
    # Leaflet map
  leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
@@ -137,8 +95,8 @@ chl_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
      title = paste0("CHLa (mg m^-3)<br>", date_tmp),
      colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))
   }
-
-sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat){
+# SST_IMG
+sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,leg_info,wlon,slat,elon,nlat){
    # Leaflet map
  leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
@@ -157,23 +115,71 @@ sst_img <- function(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat){
      title = paste0("SST (DegC)<br>", date_tmp),
      colorNumeric("Spectral", c(0,32), reverse=T), seq(0,32))
   }
+# SSCAPE_IMG
+# Coming.....
 
 
+```
+
+```{r}
+# source(here::here("scripts/functions.R")) 
+dashboard <- "FGBNMS"
+# Set Bounds from "ROI_INFO.csv" (can add other columns)
+site <- read_csv("data/ROI_INFO.csv", col_types=cols()) %>%  # Pull ROI bounds from file.
+filter(grepl(dashboard, ROI))
+# slat <- site$slat; nlat <- site$nlat ; wlon <- site$wlon; elon <- site$elon
+# For some reason, bounds don't set exactly right. Some sort of buffer? Depends on view/render?
+# Could pull ERDDAP data from all of GoM instead and just zoom to ROI.
+# Set manually for now
+slat <- 25; nlat <- 30.0 ; wlon <- -95; elon <- -90
+date_tmp <- '2017-01-01'
+
+# L3 Ocean Color from IMaRS (ERDDAP)
+# sst4   <- info('moda_sst4_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+chl   <- info('moda_oc_7d_fgb'         , url = "http://131.247.136.200:8080/erddap/")
+# Seascapes from AOML Coastwatch (ERDDAP)
+#  scape <- info("noaa_aoml_4729_9ee6_ab54", url = "https://cwcgom.aoml.noaa.gov/erddap/")
+
+
+# get range of dates (should be the same for CHL and SST)
+d <- get_dates(chl) 
+ed_dates <-  get_ed_dates_all(ed_info, d[1], d[2])
+dates2post <- tail(ed_dates,8)
+
+# Post 8 most recent 7D images on the dash in a 4x2 matrix.
+# Each image will have two tabs: mean and anom
+# There will also be a tab set between 4x2 arrays (CHL,SST,SSCAPE)
+
+# write a function here to make an image plot
+# Inputs: ERDDAP URL, dataset, title, color scale info.
+ERDDAPUrl_chl <- 'http://131.247.136.200:8080/erddap/wms/moda_oc_7d_fgb/request?'
+field_chl_med <- "moda_oc_7d_fgb:chlor_a_median"
+leg_info_chl_med <- 'paste0("CHLa (mg m^-3)<br>", date_tmp),
+     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))'
+field_chl_anom <- "moda_oc_7d_fgb:chlor_a_anom"
+leg_info_chl_anom <- 'paste0("CHLa anomaly (mg m^-3)<br>", date_tmp),
+     colorNumeric("Spectral", c(-10,10), reverse=T), seq(-10,10))'
+ERDDAPUrl_sst <- 'http://131.247.136.200:8080/erddap/wms/moda_sst4_7d_fgb/request?'
+field_sst_med <- "moda_sst4_7d_fgb:sst4_median"
+leg_info_sst_med <- 'paste0("SST (DegC)<br>", date_tmp),
+     colorNumeric("Spectral", c(0,30), reverse=T), seq(0,30))'
+field_sst_anom <- "moda_sst4_7d_fgb:sst4_anom"
+leg_info_sst_anom <- 'paste0("SST anomaly (DegC)<br>", date_tmp),
+     colorNumeric("Spectral", c(-3,3), reverse=T), seq(-3,3))'
 ```
 ## Map image 
 
 ![](data/FGBdb_map_2021.png){width=900}
 
 ::: {.panel-tabset}
-
-## Chlorophyll-a
+## Median
 ```{r}
-chl_img(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat)
+chl_img(ERDDAPUrl_chl,field_chl_med,dates2post[1],leg_info_chl_med,wlon,slat,elon,nlat)
 ```
 
-## SST
+## Anomaly
 ```{r}
-sst_img(ERDDAPUrl_sst,field_sst,img_time_stmp,wlon,slat,elon,nlat)
+chl_img(ERDDAPUrl_chl,field_chl_anom,dates2post[1],leg_info_chl_anom,wlon,slat,elon,nlat)
 ```
 :::
 
