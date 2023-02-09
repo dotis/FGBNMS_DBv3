@@ -1,12 +1,11 @@
-name: "FGBNMS_DBv3"
-toc: false
-number-sections: false
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-    toc: true 
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - "/.nojekyll"
+
 website:
+  title: "FGBNMS_DBv3"
   sidebar:
     style: "docked"
     search: false
@@ -19,3 +18,11 @@ website:
       - section: "Other information"
         contents:
           - discharge.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    number-sections: false
+
