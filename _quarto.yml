@@ -5,12 +5,12 @@ project:
     - "/.nojekyll"
 
 website:
-  title: "FGBNMS_DBv3"
+  title: "FGBNMS Dashboard"
   sidebar:
     style: "docked"
     search: false
     contents:
-      - section: "Locations for satellite data extraction"
+      - section: "Bank Locations"
         contents:
           - EFGB.qmd
           - WFGB.qmd
