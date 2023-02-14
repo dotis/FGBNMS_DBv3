@@ -1,5 +1,5 @@
 ---
-title: "EFGB"
+title: "East Flower Garden Banks"
 ---
 
 ```{r setup, include=FALSE}
