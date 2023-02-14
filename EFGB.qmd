@@ -2,11 +2,23 @@
 title: "EFGB"
 ---
 
-## Quarto
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+# install.packages("ggplot2")
+# install.packages("readr")
+# put your libary loading here:
+library("ggplot2")
+library("readr")
+```
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+```{r}
+ts <- read_csv("data/FGBdbv2_chlor_a_TS_MODA_daily_EFG.csv", col_types=cols())  # Pull CHL ts from .csv (need to fix source here)
 
-## Running Code
+
+
+```
+
+## Time series plots
 
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
