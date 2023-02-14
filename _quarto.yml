@@ -5,7 +5,7 @@ project:
     - "/.nojekyll"
 
 website:
-  title: "FGBNMS Dashboard"
+  title: "FGBNMS Data Dashboard"
   sidebar:
     style: "docked"
     search: false
