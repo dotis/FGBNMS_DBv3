@@ -4,16 +4,28 @@ title: "EFGB"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-# install.packages("ggplot2")
-# install.packages("readr")
+# install.packages("tidyverse")
+# install.packages("plotly")
 # put your libary loading here:
-library("ggplot2")
-library("readr")
+library(tidyverse)
+library(plotly)
 ```
 
 ```{r}
-ts <- read_csv("data/FGBdbv2_chlor_a_TS_MODA_daily_EFG.csv", col_types=cols())  # Pull CHL ts from .csv (need to fix source here)
+ts <- read_csv("data/FGBdbv2_chlor_a_TS_MODA_daily_EFG.csv", col_types=cols())  # Pull CHL ts from .csv (need to fix source here to server, NOT Github!)
 
+# convert dates
+dates <- ts$Time %>%
+    as.numeric() %>%
+    as.POSIXct(origin = "1970-01-01", tz = "GMT")
+
+# create plot
+suppressWarnings(ggplot(ts, aes(x=dates, y=ts$mean)) + geom_point() +
+    labs(
+    x = "Time",
+    y = "CHLa (mg m^-3)",
+    colour = "Black"
+  ))
 
 
 ```
