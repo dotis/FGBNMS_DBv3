@@ -1,5 +1,40 @@
 [
   {
+    "objectID": "WFGB.html",
+    "href": "WFGB.html",
+    "title": "WFGB",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "WFGB.html#running-code",
+    "href": "WFGB.html#running-code",
+    "title": "WFGB",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "STET.html",
+    "href": "STET.html",
+    "title": "STET",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "STET.html#running-code",
+    "href": "STET.html#running-code",
+    "title": "STET",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "EFGB.html",
+    "href": "EFGB.html",
+    "title": "East Flower Garden Banks",
+    "section": "",
+    "text": "MeanAnomaly"
+  },
+  {
     "objectID": "index.html#welcome",
     "href": "index.html#welcome",
     "title": "Flower Garden Banks Data Dashboard",
@@ -25,63 +60,7 @@
     "href": "about.html#running-code",
     "title": "About",
     "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
-  },
-  {
-    "objectID": "main_page.html#welcome",
-    "href": "main_page.html#welcome",
-    "title": "Flower Garden Banks Data Dashboard",
-    "section": "Welcome",
-    "text": "Welcome"
-  },
-  {
-    "objectID": "main_page.html#recent-7-day-mean-satellite-images",
-    "href": "main_page.html#recent-7-day-mean-satellite-images",
-    "title": "Flower Garden Banks Data Dashboard",
-    "section": "Recent 7-Day mean satellite images",
-    "text": "Recent 7-Day mean satellite images"
-  },
-  {
-    "objectID": "WFGB.html",
-    "href": "WFGB.html",
-    "title": "WFGB",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "WFGB.html#running-code",
-    "href": "WFGB.html#running-code",
-    "title": "WFGB",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
-  },
-  {
-    "objectID": "STET.html",
-    "href": "STET.html",
-    "title": "STET",
-    "section": "",
-    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
-  },
-  {
-    "objectID": "STET.html#running-code",
-    "href": "STET.html#running-code",
-    "title": "STET",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
-  },
-  {
-    "objectID": "EFGB.html",
-    "href": "EFGB.html",
-    "title": "East Flower Garden Banks",
-    "section": "",
-    "text": "MeanAnomaly"
-  },
-  {
-    "objectID": "EFGB.html#running-code",
-    "href": "EFGB.html#running-code",
-    "title": "EFGB",
-    "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   },
   {
     "objectID": "discharge.html",
@@ -95,13 +74,6 @@
     "href": "discharge.html#running-code",
     "title": "Discharge",
     "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
-  },
-  {
-    "objectID": "EFGB.html#time-series-plots",
-    "href": "EFGB.html#time-series-plots",
-    "title": "East Flower Garden Banks",
-    "section": "Time series plots",
-    "text": "Time series plots\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   }
 ]
