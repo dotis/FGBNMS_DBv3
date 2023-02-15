@@ -10,8 +10,13 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(plotly)
 ```
+## Satellite data extracted at East Flower Gardens
 
+### Chlorophyll-a
+::: {.panel-tabset}
+### Mean
 ```{r}
+#| column: screen-inset-right
 ts <- read_csv("data/FGBdbv2_chlor_a_TS_MODA_daily_EFG.csv", col_types=cols())  # Pull CHL ts from .csv (need to fix source here to server, NOT Github!)
 
 # convert dates
@@ -19,30 +24,29 @@ dates <- ts$Time %>%
     as.numeric() %>%
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 
-# create plot
-suppressWarnings(ggplot(ts, aes(x=dates, y=ts$mean)) + geom_point() +
-    labs(
-    x = "Time",
-    y = "CHLa (mg m^-3)",
-    colour = "Black"
-  ))
+# use plotly
+plt <- plot_ly(ts, type = 'scatter', mode = 'lines')%>%
+  add_trace(x = dates, y = ts$mean)%>%
+  layout(showlegend = F)
+plt <- plt %>% add_trace(x = dates, y = ts$climatology, name = 'climatology', mode = 'lines')
+plt
 
+# How to suppress warnings?
+# How can we fill gaps between points?
+# Can user turn climatology in first plot on and off?
 
 ```
-
-## Time series plots
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
+### Anomaly
 ```{r}
-1 + 1
+# plot
+plot_ly(ts, type = 'scatter', mode = 'lines')%>%
+  add_trace(x = dates, y = ts$anomaly)%>%
+  layout(showlegend = F)
+
+
+
 ```
+:::
 
-You can add options to executable code like this 
 
-```{r}
-#| echo: false
-2 * 2
-```
 
-The `echo: false` option disables the printing of code (only output is displayed).
