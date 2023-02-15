@@ -33,7 +33,7 @@ plt
 
 # How to suppress warnings?
 # How can we fill gaps between points?
-# Can user turn climatology in first plot on and off?
+# Can user turn climatology in first plot on and off? Or make transparent?
 
 ```
 ### Anomaly
