@@ -25,7 +25,7 @@ dates <- ts$Time %>%
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 
 # use plotly
-plt <- plot_ly(ts, type = 'scatter', mode = 'lines')%>%
+plt <- plot_ly(ts, type = 'scatter', mode = 'lines',connectgaps = TRUE)%>%
   add_trace(x = dates, y = ts$mean)%>%
   layout(showlegend = F)
 plt <- plt %>% add_trace(x = dates, y = ts$climatology, name = 'climatology', mode = 'lines')
@@ -38,12 +38,17 @@ plt
 ```
 ### Anomaly
 ```{r}
-# plot
-plot_ly(ts, type = 'scatter', mode = 'lines')%>%
-  add_trace(x = dates, y = ts$anomaly)%>%
+# plot using bars (red = +; blue = -)
+anom <- ts$anomaly
+anom_neg <- anom < 0
+anom_pos <- anom >= 0
+
+
+plt_anom <- plot_ly(ts, type = 'scatter', mode = 'lines')%>%
+  add_trace(x = dates, y = ts$anomaly,connectgaps = TRUE)%>%
   layout(showlegend = F)
 
-
+plt_anom
 
 ```
 :::
