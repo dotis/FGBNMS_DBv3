@@ -235,7 +235,7 @@ map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[6],wlon,slat,elo
 map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[5],wlon,slat,elon,nlat,height=ht,add_legend=add_lgnd)
 ```
 
-<!-- ![](http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fgb.png?chlor_a_median[(2023-02-04T00:00:00Z)][(25):(30)][(-95):(-90)]&.draw=surface&.vars=longitude|latitude|chlor_a_median&.colorBar=|||||&.bgColor=0xffccccff&.legend=Only) -->
+![](http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fgb.png?chlor_a_median[(2023-02-04T00:00:00Z)][(25):(30)][(-95):(-90)]&.draw=surface&.vars=longitude|latitude|chlor_a_median&.colorBar=|||||&.bgColor=0xffccccff&.legend=Only)
 
 <!-- TODO: turn above into a function and include [inline R expression](https://rmarkdown.rstudio.com/lesson-4.html) -->
 <!-- - [erddap documentation](https://coastwatch.pfeg.noaa.gov/erddap/griddap/documentation.html)\ -->
