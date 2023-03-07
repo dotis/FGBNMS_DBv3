@@ -46,7 +46,7 @@
     "href": "index.html#recent-7-day-mean-satellite-images",
     "title": "Flower Garden Banks Data Dashboard",
     "section": "Recent 7-Day mean satellite images",
-    "text": "Recent 7-Day mean satellite images"
+    "text": "Recent 7-Day mean satellite images\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nerddap documentation\n&.legend=value This specifies whether the legend on PNG images (not PDF’s) should be at the Bottom (default), Off, or Only (which returns only the legend).\n\n\n\n\nTylar’s example"
   },
   {
     "objectID": "about.html",
