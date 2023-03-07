@@ -260,18 +260,19 @@ map_erddap <- function(ed_url,ed_fld,legend_title="",img_time_stmp,wlon,slat,elo
   # Leaflet map
   m <- leaflet(
     height = height,
-    options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
+    options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) |>
     # basemap from GBIF in 4326
-    addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
+    addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") |>
     # Call to IMaRS ERDDAP (chlor_a)
     addWMSTiles(
       baseUrl = ed_url,
       layers = ed_fld,
       options = WMSTileOptions(
         version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
-        time = img_time_stmp)) %>%
-    addMouseCoordinates() %>%
-    fitBounds(wlon, slat, elon, nlat)
+        time = img_time_stmp)) |>
+    addMouseCoordinates() |>
+    fitBounds(wlon, slat, elon, nlat) |>
+    leaflet.extras::addFullscreenControl()
 
   if (add_legend){
     m <- m |>
