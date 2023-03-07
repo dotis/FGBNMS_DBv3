@@ -15,16 +15,12 @@ knitr::opts_chunk$set(echo = FALSE)
 # install.packages("flexdashboard")
 # install.packages("viridis")
 # put your libary loading here:
-library("rerddap")
-library("plotdap")
-library("mapdata")
-library("leaflet")
-library("leafem")
-library("tidyverse")
-library("glue")
-library("here")
-library("flexdashboard")
-library("viridis")
+# prefer librarian::shelf() over library() b/c: 
+#  1) installs on demand, 2) unquoted ok, 3) github works eg marinebon/seascapeR
+librarian::shelf(
+  # flexdashboard, 
+  glue, here, leafem, leaflet, mapdata, plotdap, rerddap, tidyverse, viridis)
+source(here("scripts/functions.R"))
 ```
 
 ```{r}
@@ -70,9 +66,11 @@ get_ed_dates_all <- function(ed_info, date_beg, date_end){
 }
 
 # CHL_MED_IMG
-chl_med_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
+chl_med_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat,height=400,add_legend=T){
    # Leaflet map
- leaflet(options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
+ m <- leaflet(
+   height = height,
+   options = leafletOptions(crs = leafletCRS(crsClass = "L.CRS.EPSG4326"))) %>%
    # basemap from GBIF in 4326
    addTiles("//tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style=gbif-geyser") %>%
    # Call to IMaRS ERDDAP (chlor_a)
@@ -83,11 +81,16 @@ chl_med_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nla
        version = "1.3.0", format = "image/png", transparent = T, opacity = 0.7,
        time = img_time_stmp)) %>%
    addMouseCoordinates() %>%
- fitBounds(wlon, slat, elon, nlat) %>%
-  addLegend(
-     position="bottomright",
-     title = paste0("CHLa (mg m^-3)<br>", img_time_stmp),
-     colorNumeric("Spectral", c(0.3,30), reverse=T), seq(0.3,30))
+ fitBounds(wlon, slat, elon, nlat)
+ 
+ if (add_legend){
+   m <- m |> 
+     addLegend(
+       position="bottomright",
+       title = paste0("CHLa (mg m^-3)<br>", img_time_stmp),
+       colorNumeric("Spectral", c(0.3,30), reverse=T), seq(0.3,30))
+ }
+ m
 }
 # CHL_ANOM_IMG
 chl_anom_img <- function(ERDDAPUrl_chl,field_chl,img_time_stmp,wlon,slat,elon,nlat){
@@ -221,15 +224,24 @@ knitr::kable(
 ## Recent 7-Day mean satellite images
 ```{r}
 #| column: page
-#| layout-nrow: 2
-chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[8],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[7],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[6],wlon,slat,elon,nlat)
-chl_med_img(ERDDAPUrl_chl,field_chl_med,chl_dates2post[5],wlon,slat,elon,nlat)
-# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[4],wlon,slat,elon,nlat)
-# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[3],wlon,slat,elon,nlat)
-# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[2],wlon,slat,elon,nlat)
-# chl_med_img(ERDDAPUrl_chl,field_chl_med,dates2post[1],wlon,slat,elon,nlat)
+#| layout-ncol: 6
+ht <- 160
+chl_title <- "CHLa (mg m^-3)"
+add_lgnd <- F
+
+map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[8],wlon,slat,elon,nlat,height=ht,add_legend=add_lgnd)
+map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[7],wlon,slat,elon,nlat,height=ht,add_legend=add_lgnd)
+map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[6],wlon,slat,elon,nlat,height=ht,add_legend=add_lgnd)
+map_erddap(ERDDAPUrl_chl,field_chl_med,chl_title,chl_dates2post[5],wlon,slat,elon,nlat,height=ht,add_legend=add_lgnd)
 ```
+
+![](http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fgb.png?chlor_a_median[(2023-02-04T00:00:00Z)][(25):(30)][(-95):(-90)]&.draw=surface&.vars=longitude|latitude|chlor_a_median&.colorBar=|||||&.bgColor=0xffccccff&.legend=Only)
+
+TODO: turn above into a function and include [inline R expression](https://rmarkdown.rstudio.com/lesson-4.html)
+- [erddap documentation](https://coastwatch.pfeg.noaa.gov/erddap/griddap/documentation.html)\
+  &.legend=value
+  This specifies whether the legend on PNG images (not PDF's) should be at the Bottom (default), Off, or `Only` (which returns only the legend).
+
+![Tylar's example](http://131.247.136.200:8080/erddap/griddap/moda_sst4_7d_fgb.png?sst4_median[(2023-02-04T00:00:00Z)][(31.0):(24.01113)][(-98.0):(-88.01201)]&.draw=surface&.vars=longitude|latitude|sst4_median&.colorBar=|||||&.bgColor=0xffccccff&.legend=Only)
 
 

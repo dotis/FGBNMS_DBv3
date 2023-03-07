@@ -26,3 +26,6 @@ format:
     toc: true
     number-sections: false
 
+execute:
+  echo: false
+  warning: false
