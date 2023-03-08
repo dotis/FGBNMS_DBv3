@@ -42,6 +42,8 @@ plt
 anom <- ts$anomaly
 anom_neg <- anom < 0
 anom_pos <- anom >= 0
+dates_neg <- dates[anom_neg]
+dates_pos <- dates[anom_pos]
 
 
 plt_anom <- plot_ly(ts, type = 'scatter', mode = 'lines')%>%
