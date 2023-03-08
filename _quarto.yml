@@ -18,6 +18,7 @@ website:
       - section: "Other information"
         contents:
           - discharge.qmd
+          - sea_level_trends.qmd
 
 format:
   html:

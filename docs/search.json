@@ -35,6 +35,20 @@
     "text": "MeanAnomaly"
   },
   {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Flower Garden Banks Data Dashboard",
+    "section": "Welcome",
+    "text": "Welcome"
+  },
+  {
+    "objectID": "index.html#recent-7-day-mean-satellite-images",
+    "href": "index.html#recent-7-day-mean-satellite-images",
+    "title": "Flower Garden Banks Data Dashboard",
+    "section": "Recent 7-Day mean satellite images",
+    "text": "Recent 7-Day mean satellite images"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -60,5 +74,6 @@
     "href": "discharge.html#running-code",
     "title": "Discharge",
     "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   }
 ]
