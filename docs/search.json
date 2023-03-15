@@ -1,0 +1,107 @@
+[
+  {
+    "objectID": "index.html#welcome",
+    "href": "index.html#welcome",
+    "title": "Flower Garden Banks Data Dashboard",
+    "section": "Welcome",
+    "text": "Welcome"
+  },
+  {
+    "objectID": "index.html#recent-7-day-mean-satellite-images",
+    "href": "index.html#recent-7-day-mean-satellite-images",
+    "title": "Flower Garden Banks Data Dashboard",
+    "section": "Recent 7-Day mean satellite images",
+    "text": "Recent 7-Day mean satellite images"
+  },
+  {
+    "objectID": "WFGB.html",
+    "href": "WFGB.html",
+    "title": "WFGB",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "WFGB.html#running-code",
+    "href": "WFGB.html#running-code",
+    "title": "WFGB",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "STET.html",
+    "href": "STET.html",
+    "title": "STET",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "STET.html#running-code",
+    "href": "STET.html#running-code",
+    "title": "STET",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "EFGB.html",
+    "href": "EFGB.html",
+    "title": "East Flower Garden Banks",
+    "section": "",
+    "text": "MeanAnomaly"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "about.html#running-code",
+    "href": "about.html#running-code",
+    "title": "About",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "sea_level_trends.html",
+    "href": "sea_level_trends.html",
+    "title": "Sea Level Trends",
+    "section": "",
+    "text": "Sea level trend data taken from NOAA Tides & Currents."
+  },
+  {
+    "objectID": "sea_level_trends.html#sea-level-trend-data",
+    "href": "sea_level_trends.html#sea-level-trend-data",
+    "title": "Sea Level Trends",
+    "section": "Sea Level Trend Data",
+    "text": "Sea Level Trend Data"
+  },
+  {
+    "objectID": "sea_level_trends.html#future-projections-of-sea-level-height",
+    "href": "sea_level_trends.html#future-projections-of-sea-level-height",
+    "title": "Sea Level Trends",
+    "section": "Future Projections of Sea Level Height",
+    "text": "Future Projections of Sea Level Height"
+  },
+  {
+    "objectID": "sea_level_trends.html#additional-data",
+    "href": "sea_level_trends.html#additional-data",
+    "title": "Sea Level Trends",
+    "section": "Additional Data",
+    "text": "Additional Data\nData from other stations are available on this NOAA Tides and Currents SLH station map."
+  },
+  {
+    "objectID": "discharge.html",
+    "href": "discharge.html",
+    "title": "Discharge",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "discharge.html#running-code",
+    "href": "discharge.html#running-code",
+    "title": "Discharge",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  }
+]
