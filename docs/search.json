@@ -75,5 +75,33 @@
     "title": "Discharge",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "sea_level_trends.html",
+    "href": "sea_level_trends.html",
+    "title": "Sea Level Trends",
+    "section": "",
+    "text": "Sea level trend data taken from NOAA Tides & Currents."
+  },
+  {
+    "objectID": "sea_level_trends.html#slh-data",
+    "href": "sea_level_trends.html#slh-data",
+    "title": "Sea Level Trends",
+    "section": "SLH data",
+    "text": "SLH data\n\n\n\nSLH data"
+  },
+  {
+    "objectID": "sea_level_trends.html#projections",
+    "href": "sea_level_trends.html#projections",
+    "title": "Sea Level Trends",
+    "section": "projections",
+    "text": "projections\n\n\n\nSLH projections"
+  },
+  {
+    "objectID": "sea_level_trends.html#more-data",
+    "href": "sea_level_trends.html#more-data",
+    "title": "Sea Level Trends",
+    "section": "more data",
+    "text": "more data\nMore stations are available on this NOAA Tides and Currents SLH station map."
   }
 ]
