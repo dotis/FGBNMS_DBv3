@@ -216,7 +216,7 @@ knitr::kable(
 ```
 
 ## Welcome
-![](data/FGBNMS_DBv3.png){width=900}
+![](data/FGBNMS_DBv3_map.png){width=900}
 
 
 
