@@ -5,10 +5,10 @@ title: "Sea Level Trends"
 Sea level trend data taken from [NOAA Tides & Currents](https://tidesandcurrents.noaa.gov).
 
 ## Sea Level Trend Data
-![SLH data](https://tidesandcurrents.noaa.gov/sltrends/plots/8770570_meantrend.png)
+![](https://tidesandcurrents.noaa.gov/sltrends/plots/8770570_meantrend.png)
 
 ## Future Projections of Sea Level Height
-![SLH projections](https://tidesandcurrents.noaa.gov/sltrends/plots/scenario/8770570.png)
+![](https://tidesandcurrents.noaa.gov/sltrends/plots/scenario/8770570.png)
 
 ## Additional Data
 Data from other stations are available on [this NOAA Tides and Currents SLH station map](https://tidesandcurrents.noaa.gov/sltrends/).
