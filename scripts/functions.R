@@ -80,6 +80,35 @@ get_dates <- function(info){
     as.POSIXct(origin = "1970-01-01", tz = "GMT")
 }
 
+get_ed_info <- function(dataset){
+  library(magrittr)
+  #dataset = "http://131.247.136.200:8080/erddap/griddap/moda_oc_7d_fk.html"
+
+  if (librarian:::is_valid_url(dataset)){
+    ed_url <- dirname(dirname(dataset))
+    dataset <- basename(dataset) %>% fs::path_ext_remove()
+  } else{
+    ed_url = "http://131.247.136.200:8080/erddap"
+  }
+  rerddap::info(dataset, url = ed_url)
+}
+
+get_ed_dates_all <- function(ed_info, date_beg, date_end){
+  # dates = get_ed_dates(ed_info())
+  # date_beg = as.Date("2002-06-16"); date_end = as.Date("2022-01-16")
+
+  ed_dataset = attr(ed_info, "datasetid")
+
+  t_csv <- glue("{ed_info$base_url}/griddap/{ed_dataset}.csvp?time[({date_beg}T12:00:00Z):1:({date_end}T12:00:00Z)]")
+  d_t <- try(read_csv(t_csv, show_col_types = F))
+  if ("try-error" %in% class(d_t))
+    stop(glue("Problem fetching dates from ERDDAP with: {t_csv}"))
+
+  d_t %>%
+    pull() %>%
+    as.Date()
+}
+
 get_raster <- function(info, lon, lat, date="last", field="sst"){
   g <- griddap(
     info, longitude = lon, latitude = lat,
