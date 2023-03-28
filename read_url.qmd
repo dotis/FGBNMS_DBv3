@@ -1,0 +1,17 @@
+---
+title: "read url"
+---
+
+
+```{r}
+librarian::shelf(
+  readr)
+
+url <- "https://waterdata.usgs.gov/nwis/dv?cb_00060=on&format=rdb&site_no=02301500&referred_module=sw&period=&begin_date=1910-01-01"
+
+d <- read_tsv(url, skip = 30, col_names = c(
+  "agency_cd", "site_no", "datetime", "25177_00060_00003"))
+
+head(d)
+```
+

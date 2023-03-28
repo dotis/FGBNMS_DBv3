@@ -103,5 +103,12 @@
     "title": "Discharge",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "read_url.html",
+    "href": "read_url.html",
+    "title": "read url",
+    "section": "",
+    "text": "# A tibble: 6 × 5\n  agency_cd site_no  datetime   `25177_00060_00003` X5   \n  <chr>     <chr>    <date>                   <dbl> <chr>\n1 USGS      02301500 1932-10-01                 150 A    \n2 USGS      02301500 1932-10-02                 150 A    \n3 USGS      02301500 1932-10-03                 150 A    \n4 USGS      02301500 1932-10-04                 150 A    \n5 USGS      02301500 1932-10-05                 150 A    \n6 USGS      02301500 1932-10-06                 150 A"
   }
 ]
